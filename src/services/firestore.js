@@ -14,6 +14,11 @@ export const addOrder = async (order) => {
 };
 
 export const getMenuItems = async () => {
-  const querySnapshot = await getDocs(collection(db, 'menu'));
-  return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+ try {
+    const querySnapshot = await getDocs(collection(db, 'menu'));
+    return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  } catch (e) {
+    console.error('Error fetching menu items: ', e);
+    return []; // Return empty array to prevent app crash
+  }
 };
